@@ -13,7 +13,10 @@ UP = (0, -1)
 DOWN = (0, 1)
 LEFT = (-1, 0)
 RIGHT = (1, 0)
+
+# Глобальная переменная - кортеж, хранящий в себе координаты середины
 START_POSITION = ((SCREEN_WIDTH // 2), (SCREEN_HEIGHT // 2))
+
 # Цвет фона - черный:
 BOARD_BACKGROUND_COLOR = (0, 0, 0)
 
@@ -49,8 +52,9 @@ class GameObject:
         self.body_color = None
 
     def draw(self):
-        """Функция для отрисовки объекта. Будет переопределяться"""
-        """в классах Snake и Apple."""
+        """Функция для отрисовки объекта. Будет переопределяться
+        в классах Snake и Apple.
+        """
         pass
 
 
@@ -110,8 +114,10 @@ class Snake(GameObject):
         return self.positions[0]
 
     def reset(self):
-        """Функция, сбрасывающая все параметры змейки"""
-        """для перезапуска игры."""
+        """
+        Функция, сбрасывающая все параметры змейки
+        для перезапуска игры.
+        """
         self.positions = [START_POSITION]
         self.length = 1
         self.direction = choice([LEFT, RIGHT, UP, DOWN])
@@ -126,8 +132,11 @@ class Apple(GameObject):
         self.position = None
 
     def draw(self, snake_coordinates):
-        """Функция для отрисовки яблока. Принимает список координат змейки,"""
-        """с целью не допустить генерации яблока внутри змеи."""
+        """
+        Функция для отрисовки яблока.
+        Принимает список координат змейки,
+        с целью не допустить генерации яблока внутри змеи.
+        """
         new_position = self.randomize_position()
         if new_position in snake_coordinates:
             new_position = self.randomize_position()
