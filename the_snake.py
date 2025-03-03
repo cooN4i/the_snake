@@ -46,7 +46,7 @@ clock = pg.time.Clock()
 class GameObject:
     """Класс, являющийся родительским для классов Snake и Apple."""
 
-    def __init__(self, body_color):
+    def __init__(self, body_color=None):
         self.position = START_POSITION
         self.body_color = body_color
 
@@ -62,7 +62,7 @@ class GameObject:
 class Snake(GameObject):
     """Класс Snake, наследуется от класса GameObject."""
 
-    def __init__(self, body_color):
+    def __init__(self, body_color=None):
         super().__init__(body_color)
         self.reset()
         self.next_direction = None
@@ -120,7 +120,7 @@ class Snake(GameObject):
 class Apple(GameObject):
     """Класс Snake, наследуется от класса GameObject."""
 
-    def __init__(self, body_color, snake_coordinates):
+    def __init__(self, body_color=None, snake_coordinates=[START_POSITION]):
         super().__init__(body_color)
         # self.body_color = APPLE_COLOR
         self.position = self.randomize_position(snake_coordinates)
