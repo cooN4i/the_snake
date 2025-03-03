@@ -120,9 +120,8 @@ class Snake(GameObject):
 class Apple(GameObject):
     """Класс Snake, наследуется от класса GameObject."""
 
-    def __init__(self, body_color=None, snake_coordinates=[START_POSITION]):
+    def __init__(self, snake_coordinates=[], body_color=None):
         super().__init__(body_color)
-        # self.body_color = APPLE_COLOR
         self.position = self.randomize_position(snake_coordinates)
 
     def draw(self, snake_coordinates):
@@ -174,7 +173,7 @@ def main():
     pg.init()
     # Тут нужно создать экземпляры классов.
     snake = Snake(SNAKE_COLOR)
-    apple = Apple(APPLE_COLOR, snake.positions)
+    apple = Apple(snake.positions, APPLE_COLOR)
     apple.draw(snake.positions)
     while True:
         event = False
