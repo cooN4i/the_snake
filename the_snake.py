@@ -47,12 +47,13 @@ class GameObject:
     """Класс, являющийся родительским для классов Snake и Apple."""
 
     def __init__(self, body_color):
-        """Функция для инициализации экземпляра класса GameObject."""
         self.position = START_POSITION
         self.body_color = body_color
 
     def draw(self):
-        """Функция для отрисовки объекта. Будет переопределяться
+        """Метод класса GameObject.
+
+        Необходим для отрисовки объекта. Будет переопределяться
         в классах Snake и Apple.
         """
         pass
@@ -63,15 +64,13 @@ class Snake(GameObject):
 
     def __init__(self, body_color):
         super().__init__(body_color)
-        # self.length = 1
-        # self.positions = [START_POSITION]
-        # self.direction = RIGHT
         self.reset()
         self.next_direction = None
         self.last = None
+        self.direction = RIGHT
 
     def move(self):
-        """Функция, описывающая движение змейки."""
+        """Метод, описывающий движение змейки."""
         x_coord, y_coord = self.get_head_position()
         x_direction, y_direction = self.direction
         new_head = ((x_coord + x_direction * GRID_SIZE) % SCREEN_WIDTH,
@@ -82,13 +81,13 @@ class Snake(GameObject):
             self.positions.pop(-1)
 
     def update_direction(self):
-        """Функция, обновляющая направление движения змейки."""
+        """Метод, обновляющий направление движения змейки."""
         if self.next_direction:
             self.direction = self.next_direction
             self.next_direction = None
 
     def draw(self):
-        """Функция для отрисовки змейки."""
+        """Метод для отрисовки змейки."""
         for position in self.positions[:-1]:
             rect = (pg.Rect(position, (GRID_SIZE, GRID_SIZE)))
             pg.draw.rect(screen, self.body_color, rect)
@@ -104,12 +103,13 @@ class Snake(GameObject):
             pg.draw.rect(screen, BOARD_BACKGROUND_COLOR, last_rect)
 
     def get_head_position(self):
-        """Функция, возвращающая координаты головы змейки."""
+        """Метод, возвращающий координаты головы змейки."""
         return self.positions[0]
 
     def reset(self):
-        """
-        Функция, сбрасывающая все параметры змейки
+        """Метод класса Snake.
+
+        Сбрасывает все параметры змейки
         для перезапуска игры.
         """
         self.positions = [START_POSITION]
@@ -126,14 +126,16 @@ class Apple(GameObject):
         self.position = self.randomize_position(snake_coordinates)
 
     def draw(self, snake_coordinates):
-        """Функция для отрисовки яблока."""
+        """Метод для отрисовки яблока."""
         self.randomize_position(snake_coordinates)
         rect = pg.Rect(self.position, (GRID_SIZE, GRID_SIZE))
         pg.draw.rect(screen, self.body_color, rect)
         pg.draw.rect(screen, BORDER_COLOR, rect, 1)
 
     def randomize_position(self, snake_coordinates):
-        """Функция, генерирующая случайные координаты для яблока.
+        """Метод класса Apple.
+
+        Генерирует случайные координаты для яблока.
         Принимает список координат змейки,
         с целью не допустить генерации яблока внутри змеи.
         """
@@ -143,14 +145,14 @@ class Apple(GameObject):
         self.position = new_position
 
     def get_random_position(self):
-        """Функция использующая модуль random для получения координат яблока"""
+        """Метод, возвращающий случайные координаты для яблока."""
         return (randint(0, GRID_WIDTH - 1) * GRID_SIZE,
                 randint(0, GRID_HEIGHT - 1) * GRID_SIZE)
 
 
 # Функция обработки действий пользователя
 def handle_keys(game_object):
-    """Функция для обработки действий пользователя."""
+    """Метод для обработки действий пользователя."""
     for event in pg.event.get():
         if event.type == pg.QUIT:
             pg.quit()
