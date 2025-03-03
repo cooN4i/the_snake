@@ -120,7 +120,7 @@ class Snake(GameObject):
 class Apple(GameObject):
     """Класс Snake, наследуется от класса GameObject."""
 
-    def __init__(self, snake_coordinates=[], body_color=None):
+    def __init__(self, snake_coordinates=None, body_color=None):
         super().__init__(body_color)
         self.position = self.randomize_position(snake_coordinates)
 
@@ -139,7 +139,7 @@ class Apple(GameObject):
         с целью не допустить генерации яблока внутри змеи.
         """
         new_position = self.get_random_position()
-        if new_position in snake_coordinates:
+        if snake_coordinates and new_position in snake_coordinates:
             new_position = self.get_random_position()
         self.position = new_position
 
