@@ -122,11 +122,10 @@ class Apple(GameObject):
 
     def __init__(self, snake_coordinates=None, body_color=None):
         super().__init__(body_color)
-        self.position = self.randomize_position(snake_coordinates)
+        self.randomize_position(snake_coordinates)
 
     def draw(self, snake_coordinates):
         """Метод для отрисовки яблока."""
-        self.randomize_position(snake_coordinates)
         rect = pg.Rect(self.position, (GRID_SIZE, GRID_SIZE))
         pg.draw.rect(screen, self.body_color, rect)
         pg.draw.rect(screen, BORDER_COLOR, rect, 1)
@@ -138,15 +137,12 @@ class Apple(GameObject):
         Принимает список координат змейки,
         с целью не допустить генерации яблока внутри змеи.
         """
-        new_position = self.get_random_position()
-        if snake_coordinates and new_position in snake_coordinates:
-            new_position = self.get_random_position()
-        self.position = new_position
-
-    def get_random_position(self):
-        """Метод, возвращающий случайные координаты для яблока."""
-        return (randint(0, GRID_WIDTH - 1) * GRID_SIZE,
-                randint(0, GRID_HEIGHT - 1) * GRID_SIZE)
+        while True:
+            self.position = (randint(0, GRID_WIDTH - 1) * GRID_SIZE,
+                             randint(0, GRID_HEIGHT - 1) * GRID_SIZE)
+            if (snake_coordinates is None
+                    or self.position not in snake_coordinates):
+                break
 
 
 # Функция обработки действий пользователя
@@ -174,9 +170,7 @@ def main():
     # Тут нужно создать экземпляры классов.
     snake = Snake(SNAKE_COLOR)
     apple = Apple(snake.positions, APPLE_COLOR)
-    apple.draw(snake.positions)
     while True:
-        event = False
         clock.tick(SPEED)
         handle_keys(snake)
         # Тут опишите основную логику игры.
@@ -184,15 +178,12 @@ def main():
         snake.draw()
         snake.update_direction()
         if apple.position == snake.get_head_position():
+            apple.randomize_position(snake.positions)
             snake.length += 1
-            event = True
-        if snake.length >= 5:
-            if snake.get_head_position() in snake.positions[1:]:
-                screen.fill(BOARD_BACKGROUND_COLOR)
-                snake.reset()
-                event = True
-        if event:
-            apple.draw(snake.positions)
+        elif snake.get_head_position() in snake.positions[1:]:
+            screen.fill(BOARD_BACKGROUND_COLOR)
+            snake.reset()
+        apple.draw(snake.positions)
         pg.display.update()
 
 
